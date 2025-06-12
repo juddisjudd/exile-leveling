@@ -1,0 +1,69 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-2);
+  background: var(--secondary);
+  border-bottom: 1px solid var(--accent-primary);
+  cursor: move;
+  -webkit-app-region: drag;
+  min-height: 2rem;
+  position: relative;
+  z-index: 10;
+  margin: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.dragArea {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  flex-grow: 1;
+  min-height: 2rem;
+}
+
+.gripIcon {
+  color: var(--on-secondary);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: var(--font-heavy);
+  color: var(--on-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.controls {
+  display: flex;
+  gap: var(--size-1);
+  -webkit-app-region: no-drag;
+  flex-shrink: 0;
+}
+
+.controlButton {
+  background: none;
+  border: none;
+  color: var(--on-secondary);
+  cursor: pointer;
+  padding: var(--size-1);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.controlButton:hover {
+  background: var(--accent-primary);
+}
+
+.dragging {
+  user-select: none;
+}

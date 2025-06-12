@@ -1,77 +1,99 @@
 import { ErrorFallback } from "../components/ErrorFallback";
 import { Loading } from "../components/Loading";
 import { Navbar } from "../components/Navbar";
-import { pipe } from "../utility";
+import { OverlayApp } from "./OverlayApp";
+import { useElectron } from "../hooks/useElectron";
 import { withBlank } from "../utility/withBlank";
 import { withScrollRestoration } from "../utility/withScrollRestoration";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, ComponentType } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const RoutesContainer = pipe(
-  withBlank,
-  withScrollRestoration
-)(lazy(() => import("./Routes")));
-const BuildContainer = withBlank(lazy(() => import("./Build")));
-const EditRouteContainer = withBlank(lazy(() => import("./EditRoute")));
+const RoutesLazy = lazy(() => import("./Routes"));
+const BuildLazy = lazy(() => import("./Build"));
+const EditRouteLazy = lazy(() => import("./EditRoute"));
+
+const RoutesContainer: ComponentType = withScrollRestoration(
+  withBlank(RoutesLazy)
+);
+const BuildContainer: ComponentType = withBlank(BuildLazy);
+const EditRouteContainer: ComponentType = withBlank(EditRouteLazy);
 
 export function App() {
+  const { isElectron } = useElectron();
+
+  useEffect(() => {
+    if (isElectron) {
+      document.documentElement.classList.add("electron-app");
+      document.body.classList.add("electron-app");
+      document.body.classList.add("overlay-mode");
+
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.style.overflowX = "hidden";
+      document.documentElement.style.overflowY = "hidden";
+
+      document.body.style.overflow = "hidden";
+      document.body.style.overflowX = "hidden";
+      document.body.style.overflowY = "hidden";
+
+      const root = document.getElementById("root");
+      if (root) {
+        root.style.overflow = "hidden";
+        root.style.overflowX = "hidden";
+        root.style.overflowY = "hidden";
+      }
+    } else {
+      document.documentElement.classList.remove("electron-app");
+      document.body.classList.remove("electron-app");
+      document.body.classList.remove("overlay-mode");
+
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.overflowX = "";
+      document.documentElement.style.overflowY = "";
+
+      document.body.style.overflow = "";
+      document.body.style.overflowX = "";
+      document.body.style.overflowY = "";
+
+      const root = document.getElementById("root");
+      if (root) {
+        root.style.overflow = "";
+        root.style.overflowX = "";
+        root.style.overflowY = "";
+      }
+    }
+  }, [isElectron]);
+
+  if (isElectron) {
+    return <OverlayApp />;
+  }
+
   return (
     <>
       <Navbar />
+      <ToastContainer
+        position="bottom-right"
+        theme="dark"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Suspense fallback={<Loading />}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Page title="Exile Leveling" component={<RoutesContainer />} />
-              }
-            />
-            <Route
-              path="/build"
-              element={
-                <Page
-                  title="Exile Leveling - Build"
-                  component={<BuildContainer />}
-                />
-              }
-            />
-            <Route
-              path="/edit-route"
-              element={
-                <Page
-                  title="Exile Leveling - Edit Route"
-                  component={<EditRouteContainer />}
-                />
-              }
-            />
+            <Route path="/" element={<RoutesContainer />} />
+            <Route path="/build" element={<BuildContainer />} />
+            <Route path="/edit-route" element={<EditRouteContainer />} />
           </Routes>
         </ErrorBoundary>
       </Suspense>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        closeOnClick={true}
-        theme={"dark"}
-        pauseOnFocusLoss={false}
-        pauseOnHover={false}
-      />
     </>
   );
-}
-
-interface PageProps {
-  title: string;
-  component: JSX.Element;
-}
-
-function Page({ title, component }: PageProps) {
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
-
-  return component;
 }

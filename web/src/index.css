@@ -1,31 +1,46 @@
 :root {
-  color-scheme: dark;
-  --primary: #161616;
-  --secondary: #222222;
-  --on-primary: #d4d4d4;
-  --on-secondary: #f5f5f5;
-  --highlight-primary: #242424;
-  --highlight-secondary: #404040;
-  --accent-primary: #808080;
-  --accent-secondary: #505050;
-  --toastify-color-dark: var(--secondary);
-  --border-width: 0.0625rem;
-  --border-radius: 0.25rem;
-  --size-1: 0.125rem;
-  --size-2: 0.25rem;
-  --size-3: 0.5rem;
+  --size-1: 0.25rem;
+  --size-2: 0.5rem;
+  --size-3: 0.75rem;
   --size-4: 1rem;
-  --size-5: 1.5rem;
-  --line-height: 1.5em;
-  --font-heavy: 700;
-  /* Fractional pixel rounding varies between browsers, lower-bound picked based on Firefox */
-  --navbar-height: 2.625rem;
-  --actbar-height: 2.75rem;
+  --size-5: 1.25rem;
+  --size-6: 1.5rem;
+  --size-7: 1.75rem;
+  --size-8: 2rem;
+
+  --primary: #1e1e1e;
+  --secondary: #2a2a2a;
+  --accent-primary: #4a90e2;
+  --on-primary: #ffffff;
+  --on-secondary: #cccccc;
+
+  --font-light: 300;
+  --font-normal: 400;
+  --font-heavy: 600;
+  --line-height: 1.5;
+
+  --border-width: 1px;
+  --border-radius: 0.25rem;
+  --navbar-height: 3rem;
+
+  --overlay-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --overlay-shadow-hover: 0 12px 48px rgba(0, 0, 0, 0.6);
+  --overlay-border: 1px solid var(--accent-primary);
+  --overlay-accent: #4a90e2;
+  --drag-cursor: move;
+
+  --overlay-transition-fast: 0.15s;
+  --overlay-transition-medium: 0.3s;
+  --overlay-transition-slow: 0.5s;
+
+  --z-overlay-base: 1000;
+  --z-overlay-header: 1001;
+  --z-overlay-modal: 1002;
+  --z-overlay-backdrop: 999;
+  --z-overlay-toast: 9999;
 }
 
-*,
-::after,
-::before {
+*, ::after, ::before {
   box-sizing: inherit;
   font: inherit;
   user-select: inherit;
@@ -52,8 +67,230 @@ html {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1em;
   font-weight: 400;
-  overflow-y: scroll;
   user-select: none;
+}
+
+html.electron-app {
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+body.electron-app {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+body.overlay-mode {
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+body.electron-app #root {
+  max-width: none;
+  height: 100vh;
+  max-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.electron-app *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-corner {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.electron-app .content,
+.electron-app .routesContainer,
+.electron-app [class*="content"],
+.electron-app [class*="container"] {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.electron-app * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-block-start: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app *:not(:first-child) {
+  margin-top: var(--size-1) !important;
+}
+
+.electron-app *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.electron-app h1,
+.electron-app h2,
+.electron-app h3,
+.electron-app div[class*="act"],
+.electron-app section[class*="act"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-block-start: 0 !important;
+}
+
+.electron-app [class*="Routes"],
+.electron-app [class*="routes"],
+.electron-app [class*="TaskList"],
+.electron-app [class*="SectionHolder"],
+.electron-app [class*="Sidebar"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.electron-app [class*="_"],
+.electron-app [class*="module"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.overlay-window {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--overlay-shadow);
+  transition: box-shadow var(--overlay-transition-medium) ease;
+}
+
+.overlay-window:hover {
+  box-shadow: var(--overlay-shadow-hover);
+}
+
+.overlay-draggable {
+  -webkit-app-region: drag;
+  cursor: var(--drag-cursor);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.overlay-no-drag {
+  -webkit-app-region: no-drag;
+  cursor: default;
+}
+
+.electron-app .modal-overlay {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.electron-app .Toastify__toast-container {
+  font-size: 0.8rem;
+  width: auto;
+  max-width: 300px;
+}
+
+.electron-app .Toastify__toast {
+  border-radius: var(--border-radius);
+  box-shadow: var(--overlay-shadow);
+}
+
+.electron-app *:focus-visible {
+  outline-color: var(--overlay-accent);
+  outline-width: 2px;
+  outline-offset: 1px;
+}
+
+.electron-app button:active,
+.electron-app .interactive:active {
+  transform: scale(0.98);
+  transition: transform var(--overlay-transition-fast) ease;
+}
+
+.electron-app.compact-mode {
+  font-size: 0.85rem;
+}
+
+.electron-app.compact-mode .overlay-header {
+  min-height: 1.5rem;
+  padding: var(--size-1) var(--size-2);
+}
+
+.electron-app .transition-smooth {
+  transition: all var(--overlay-transition-medium) ease;
+}
+
+.electron-app .transition-fast {
+  transition: all var(--overlay-transition-fast) ease;
+}
+
+.electron-app .fade-in {
+  animation: fadeIn var(--overlay-transition-medium) ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-contrast: high) {
+  .electron-app {
+    --overlay-accent: #ffffff;
+    --overlay-border: 2px solid var(--overlay-accent);
+  }
+  
+  .electron-app .overlay-window {
+    border: var(--overlay-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .electron-app * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .electron-app .modal-overlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media print {
+  .electron-app,
+  .overlay-window,
+  .overlay-header,
+  .overlay-settings {
+    display: none !important;
+  }
 }
 
 hr {
@@ -94,4 +331,190 @@ hr {
 a:link,
 a:visited {
   color: var(--on-primary);
+}
+
+.electron-app *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app *::-webkit-scrollbar-corner {
+  display: none !important;
+  background: transparent !important;
+}
+
+.electron-app * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.electron-app .content,
+.electron-app .routesContainer,
+.electron-app [class*="content"],
+.electron-app [class*="container"] {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.electron-app .overlayContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.electron-app .overlayContainer > *:first-child {
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.electron-app .content {
+  flex: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-left: var(--size-2) !important;
+  padding-right: var(--size-2) !important;
+  padding-bottom: var(--size-2) !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app .routesContainer {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app [class*="section"],
+.electron-app [class*="Section"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app [class*="section"]:first-child,
+.electron-app [class*="Section"]:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app [class*="sectionbar"],
+.electron-app [class*="sectionBar"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  top: 0 !important;
+}
+
+.electron-app h1,
+.electron-app h2,
+.electron-app h3,
+.electron-app [class*="header"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-block-start: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app [data-react-router],
+.electron-app [data-react-suspense],
+.electron-app [data-react-error-boundary] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.electron-app [class*="Routes"],
+.electron-app [class*="routes"] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.electron-app [data-lazy],
+.electron-app [data-component] {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.electron-app .content > *,
+.electron-app .content > * > *,
+.electron-app .content > * > * > *,
+.electron-app .content > * > * > * > * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app .routesContainer > *,
+.electron-app .routesContainer > * > *,
+.electron-app .routesContainer > * > * > *,
+.electron-app .routesContainer > * > * > * > * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app .content > *:first-child,
+.electron-app .routesContainer > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.electron-app .routesContainer {
+  margin-top: -2px !important;
+}
+
+.electron-app .routesContainer > *:not(:first-child) {
+  margin-top: var(--size-1) !important;
+}
+
+.electron-app [class*="section"]:not(:first-child) {
+  margin-top: var(--size-2) !important;
+}
+
+.electron-app.compact-mode .content,
+.electron-app [class*="compactMode"] .content {
+  padding-left: var(--size-1) !important;
+  padding-right: var(--size-1) !important;
+  padding-bottom: var(--size-1) !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.electron-app.compact-mode .routesContainer,
+.electron-app [class*="compactMode"] .routesContainer {
+  margin-top: -1px !important;
+}
+
+.electron-app [class*="overlay"] {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.electron-app [class*="overlayApp"],
+.electron-app [class*="OverlayApp"] {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.electron-app [class*="settingsOpen"] .content {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }

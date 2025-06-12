@@ -1,0 +1,226 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--primary);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--border-radius);
+  max-width: 500px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-3);
+  border-bottom: 1px solid var(--accent-primary);
+}
+
+.header h3 {
+  margin: 0;
+  color: var(--on-primary);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--on-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  padding: var(--size-3);
+}
+
+.section {
+  margin-bottom: var(--size-4);
+}
+
+.section h4 {
+  margin: 0 0 var(--size-2) 0;
+  color: var(--on-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: var(--font-heavy);
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+}
+
+.sectionIcon {
+  opacity: 0.7;
+}
+
+.currentPage {
+  color: var(--on-primary);
+  font-size: 0.85rem;
+  margin-bottom: var(--size-3);
+  padding: var(--size-2);
+  background: var(--secondary);
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.navigationGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--size-2);
+  margin-bottom: var(--size-2);
+}
+
+.navButton {
+  background: var(--secondary);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--border-radius);
+  color: var(--on-primary);
+  cursor: pointer;
+  padding: var(--size-3);
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.navButtonActive {
+  background: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.navIcon {
+  font-size: 0.9rem;
+}
+
+.actionButton {
+  background: var(--secondary);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--border-radius);
+  color: var(--on-primary);
+  cursor: pointer;
+  padding: var(--size-3);
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  font-size: 0.85rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: var(--accent-primary);
+}
+
+.dangerButton {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.dangerButton:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.setting {
+  margin-bottom: var(--size-2);
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+}
+
+.setting label {
+  color: var(--on-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+}
+
+.opacityControl {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2);
+  flex-grow: 1;
+}
+
+.opacityControl input[type="range"] {
+  flex-grow: 1;
+}
+
+.opacityControl span {
+  color: var(--on-secondary);
+  min-width: 3rem;
+  text-align: right;
+}
+
+.hotkeyList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.hotkeyItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--on-primary);
+}
+
+.hotkeyItem kbd {
+  background: var(--secondary);
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--border-radius);
+  padding: var(--size-1) var(--size-2);
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+.debugInfo {
+  background: var(--secondary);
+  padding: var(--size-2);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--size-3);
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--on-secondary);
+  border-left: 3px solid #f39c12;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    max-width: 95%;
+    margin: var(--size-2);
+  }
+  
+  .navigationGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .content {
+    padding: var(--size-2);
+  }
+}

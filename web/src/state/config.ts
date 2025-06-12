@@ -1,14 +1,14 @@
 import { persistentStorageEffect } from ".";
 import { NO_MIGRATORS, getPersistent } from "../utility";
-import { DefaultValue } from "recoil";
-import { atom, selector } from "recoil";
+import { DefaultValue, atom, selector } from "recoil";
 
 export interface Config {
   gemsOnly: boolean;
+  showAllHints: boolean;
   showSubsteps: boolean;
 }
 
-const CONFIG_VERSION = 0;
+const CONFIG_VERSION = 1;
 
 const configAtom = atom<Config | null>({
   key: "configAtom",
@@ -20,12 +20,13 @@ export const configSelector = selector<Config>({
   key: "configSelector",
   get: ({ get }) => {
     let value = get(configAtom);
-    if (value === null)
+    if (value === null) {
       value = {
         gemsOnly: false,
-        showSubsteps: true,
+        showAllHints: false,
+        showSubsteps: false,
       };
-
+    }
     return value;
   },
   set: ({ set }, newValue) => {

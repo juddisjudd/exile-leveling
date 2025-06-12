@@ -25,3 +25,15 @@ dist-ssr
 
 .env
 /common/data/tree/*.json
+
+# Dependencies
+node_modules/
+web/node_modules/
+
+# pnpm
+.pnpm-debug.log*
+
+# Build outputs  
+dist/
+release/
+web/dist/
