@@ -1,6 +1,6 @@
 {
   "name": "exile-leveling-overlay",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Path of Exile Leveling Guide Desktop Overlay",
   "author": "heartofphos",
   "main": "dist/electron/main.js",

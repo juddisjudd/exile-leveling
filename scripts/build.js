@@ -5,21 +5,6 @@ const path = require("path");
 console.log("🔨 Building production version...");
 
 try {
-  console.log("🎨 Creating application icons...");
-  execSync("node scripts/create-icons.js", { stdio: "inherit" });
-
-  const icoPath = path.join(__dirname, "..", "assets", "icon.ico");
-  if (!fs.existsSync(icoPath)) {
-    console.log("⚠️ Warning: No icon.ico found. Creating placeholder...");
-    const pngPath = path.join(__dirname, "..", "assets", "icon.png");
-    if (fs.existsSync(pngPath)) {
-      console.log(
-        "📝 You should convert icon.png to icon.ico for Windows builds"
-      );
-      console.log("   Use an online converter: https://convertio.co/png-ico/");
-    }
-  }
-
   console.log("📦 Building web application for Electron...");
   execSync("pnpm run build", {
     cwd: "web",
